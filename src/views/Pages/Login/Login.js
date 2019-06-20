@@ -6,6 +6,11 @@ class Login extends Component {
 
   constructor(props) {
     super(props);
+    debugger;
+    let loginId = localStorage.getItem("loginId");
+    if(loginId != null){
+      window.location.href = "#/dashboard";
+    }
     
     this.state = {
       email: "",
@@ -20,7 +25,6 @@ class Login extends Component {
     }
   
     handleChange = event => {
-      debugger;
       this.setState({
         
         [event.target.id]: event.target.value
@@ -28,14 +32,13 @@ class Login extends Component {
     }
   
     handleSubmit = event => {
-      debugger;
       event.preventDefault();
       try {
         let formData  = {};
         formData.email = this.state.email;
         formData.password = this.state.password;
-        var loginData = 'u='+formData.email+'&p='+formData.password;
-        fetch('https://mor-api-implement.herokuapp.com/users/login', {
+        var loginData = 'username='+formData.email+'&password='+formData.password;
+        fetch('http://localhost:3000/users/login', {
           method: 'post',
           headers: {
               'content-type': 'application/x-www-form-urlencoded',
@@ -47,7 +50,16 @@ class Login extends Component {
           return response.json();
       })
       .then(function(myJson) {
-          alert(myJson);
+          console.log(myJson);
+          if(myJson.status){
+            localStorage.removeItem("loginId");
+            localStorage.setItem('loginId',myJson.loginId);
+            window.location.href = "#/dashboard";
+            
+          }
+          else{
+            alert('Invalid username or password.');
+          }
 
       });
     
@@ -56,14 +68,7 @@ class Login extends Component {
       }
     }
 
-  
 
-  submitLogin(){
-    debugger;
-
-    //alert('hello World')
-
-  }
 
 
   render() {

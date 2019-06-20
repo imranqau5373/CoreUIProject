@@ -30,6 +30,9 @@ class DefaultLayout extends Component {
 
   signOut(e) {
     e.preventDefault()
+    debugger;
+    localStorage.removeItem("loginId");
+    
     this.props.history.push('/login')
   }
 
