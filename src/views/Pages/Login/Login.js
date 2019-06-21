@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios'
 import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
 
 class Login extends Component {
@@ -38,19 +39,16 @@ class Login extends Component {
         formData.email = this.state.email;
         formData.password = this.state.password;
         var loginData = 'username='+formData.email+'&password='+formData.password;
-        fetch('http://localhost:3000/users/login', {
-          method: 'post',
+
+      axios.post('http://mor-api-implement.herokuapp.com/users/login', {
           headers: {
               'content-type': 'application/x-www-form-urlencoded',
               'Accept': 'application/json'
           },
           body: loginData
       })
-      .then(function(response) {
-          return response.json();
-      })
-      .then(function(myJson) {
-          console.log(myJson);
+      .then(function (myJson) {
+             console.log(myJson);
           if(myJson.status){
             localStorage.removeItem("loginId");
             localStorage.setItem('loginId',myJson.loginId);
@@ -60,9 +58,10 @@ class Login extends Component {
           else{
             alert('Invalid username or password.');
           }
-
+      })
+      .catch(function (error) {
+        console.log(error);
       });
-    
       } catch (e) {
         alert(e.message);
       }
