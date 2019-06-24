@@ -6,7 +6,6 @@ class Register extends Component {
 
   constructor(props) {
     super(props);
-    debugger;
     let loginId = localStorage.getItem("loginId");
     if(loginId != null){
       window.location.href = "#/dashboard";
@@ -15,7 +14,7 @@ class Register extends Component {
     this.state = {
       email: "",
       password: "",
-      retypepassword : "",
+      repeatpassword : "",
       firstname : "",
       lastname : "",
       company : "",
@@ -23,7 +22,8 @@ class Register extends Component {
       phonenumber : "",
       username : "",
       currency_id: "",
-      device_type : ""
+      device_type : "",
+      country_id : "0"
 
     };
 
@@ -31,7 +31,8 @@ class Register extends Component {
     }
 
     validateForm() {
-      return this.state.email.length > 0 && this.state.password.length > 0;
+      return this.state.email.length > 0 && this.state.password.length > 0 && this.state.username.length > 0
+      && this.state.firstname.length > 0;
     }
   
     handleChange = event => {
@@ -47,32 +48,34 @@ class Register extends Component {
         let formData  = {};
         formData.email = this.state.email;
         formData.password = this.state.password;
-        formData.retypepassword = this.state.retypepassword;
+        formData.password2 = this.state.repeatpassword;
         formData.company = this.state.company;
         formData.firstname = this.state.firstname;
         formData.lastname =this.state.lastname;
         formData.username =this.state.username;
+        formData.phonenumber = this.state.phonenumber;
         formData.currency_id = this.state.currency_id;
-        var loginData = 'username='+formData.email+'&password='+formData.password;
+        formData.device_type = this.state.device_type;
+        formData.country_id = this.state.country_id;
+
         axios.post('http://mor-api-implement.herokuapp.com/users/register', {
           headers: {
               'content-type': 'application/x-www-form-urlencoded',
               'Accept': 'application/json'
           },
-          body: loginData
+          body: formData
       })
       .then(function (myJson) {
              console.log(myJson);
-          if(myJson.status){
-            localStorage.removeItem("loginId");
-            localStorage.setItem('loginId',myJson.loginId);
-            window.location.href = "#/dashboard";
-            
+          if(myJson.data.status[0].error){
+
+            alert(myJson.data.status[0].error[0]);
           }
           else{
-            alert('Invalid username or password.');
+            alert("Registration Successfully. Please login again.");
+            window.location.href = "#/login";
           }
-      })
+      });
     
       } catch (e) {
         alert(e.message);
@@ -88,45 +91,47 @@ class Register extends Component {
             <Col md="12" lg="9" xl="9">
               <Card className="mx-4">
                 <CardBody className="p-4">
-                  <Form >
+                  <Form onSubmit={this.handleSubmit}>
                     <h1>Register</h1>
                     <p className="text-muted">Create your account</p>
                     <InputGroup className="mb-3">
      
-                      <Input type="text" placeholder="First Name" autoComplete="firstname" />
+                      <Input type="text" placeholder="First Name" id="firstname" autoComplete="firstname" onChange={this.handleChange}/>
                       
-                      <Input type="text" placeholder="Last Name" autoComplete="lastname" />
+                      <Input type="text" placeholder="Last Name" id="lastname" autoComplete="lastname" onChange={this.handleChange} />
                     </InputGroup>
                     <InputGroup className="mb-3">
-                      <Input type="text" placeholder="Company Name" autoComplete="companyname" />
-                      <Input type="number" placeholder="Phone Number" autoComplete="phonenumber" />
+                      <Input type="text" placeholder="Company Name" id="company" autoComplete="companyname" onChange={this.handleChange} />
+                      <Input type="number" placeholder="Phone Number" autoComplete="phonenumber" id="phonenumber" onChange={this.handleChange}/>
                      
                     </InputGroup>
 
                     <InputGroup className="mb-3">
   
-                      <Input type="text" placeholder="Username" autoComplete="username" />
-                      <Input type="password" placeholder="Password" autoComplete="password" />
+                      <Input type="text" placeholder="Username" autoComplete="username" id="username"
+                      onChange={this.handleChange} />
+                      <Input type="password" id="password" placeholder="Password" autoComplete="password" onChange={this.handleChange} />
                     </InputGroup>
                     <InputGroup className="mb-3">
                      
-                      <Input type="password" placeholder="Repeat Password" autoComplete="repeatpassword" />
-                      <Input type="text" placeholder="Email" autoComplete="email" />
+                      <Input type="password" placeholder="Repeat Password" autoComplete="repeatpassword" id="repeatpassword" onChange={this.handleChange} />
+                      <Input type="text" placeholder="Email" id="email" autoComplete="email" onChange={this.handleChange} />
                     </InputGroup>
                    
                     <InputGroup className="mb-3">
-                    <Input type="text" placeholder="Address" autoComplete="address" />
+                    <Input type="text" placeholder="Address" autoComplete="address" id="address" onChange={this.handleChange} />
                     </InputGroup>
-                    <FormGroup className="mb-3" >
+                    <FormGroup className="mb-3" style={{ paddingLeft: '20px' }} >
                     <Label check>
-                      <Input type="radio" name="device_type" id="device_type_SIP" />{' '}
+                      <Input type="radio" name="currency_type" id="currency_id" value="1"  onChange={this.handleChange}  />{' '}
                       EUR (Ratelists billing and payment in EUR) <br></br>
-                      <Input type="radio" name="device_type" id="device_type_IAX2" />{' '}
+                      <Input type="radio" name="currency_type" id="currency_id" value="2" onChange={this.handleChange}  />{' '}
                       USD (Ratelists billing and payment in USD)
                     </Label>
                     </FormGroup>
+
                     <InputGroup className="mb-3">
-                  <Input type="select" name="country_id" autocomplete="off">
+                  <Input type="select" name="country_id" autocomplete="off" id="country_id" onChange={this.handleChange} >
                   <option value="" selected="">Select Country</option>
                   <option value="1"> Afghanistan </option>
                   <option value="2"> Albania </option>
@@ -374,15 +379,14 @@ class Register extends Component {
                   <option value="239"> Zimbabwe </option>
                   </Input>
                     </InputGroup>
-                    
-                    <InputGroup className="mb-3">
+                    <FormGroup className="mb-3" style={{ paddingLeft: '20px' }} >
                       <Label check>
-                        <Input type="radio" name="device_type" id="device_type_SIP" />{' '}
+                        <Input type="radio" name="device_type" id="device_type" value="SIP" onChange={this.handleChange}  />{' '}
                         SIP <br></br>
-                        <Input type="radio" name="device_type" id="device_type_IAX2" />{' '}
+                        <Input type="radio" name="device_type" id="device_type" value="IAX2"  onChange={this.handleChange} />{' '}
                         IAX2
                       </Label>
-                    </InputGroup>
+                    </FormGroup>
                     <Button color="success" block disabled={!this.validateForm()} type="submit">Create Account</Button>
                   </Form>
                 </CardBody>
