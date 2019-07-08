@@ -23,6 +23,12 @@ const ButtonGroups = React.lazy(() => import('./views/Buttons/ButtonGroups'));
 const Buttons = React.lazy(() => import('./views/Buttons/Buttons'));
 const Charts = React.lazy(() => import('./views/Charts'));
 const Dashboard = React.lazy(() => import('./views/Dashboard'));
+const SIP = React.lazy(() => import('./views/SIP'));
+const Payment = React.lazy(() => import('./views/Payment'));
+const PaymentSuccess = React.lazy(() => import('./views/Payment Success'));
+
+
+const CallRecords = React.lazy(() => import('./views/Call Records'));
 const CoreUIIcons = React.lazy(() => import('./views/Icons/CoreUIIcons'));
 const Flags = React.lazy(() => import('./views/Icons/Flags'));
 const FontAwesome = React.lazy(() => import('./views/Icons/FontAwesome'));
@@ -40,6 +46,10 @@ const User = React.lazy(() => import('./views/Users/User'));
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
+  { path: '/sip', name: 'SIP', component: SIP },
+  { path: '/callrecords', name: 'Call Records', component: CallRecords },
+  { path: '/payment', name: 'Payment', component: Payment },
+  { path: '/paymentsuccess', name: 'Payment Success', component: PaymentSuccess },
   { path: '/theme', exact: true, name: 'Theme', component: Colors },
   { path: '/theme/colors', name: 'Colors', component: Colors },
   { path: '/theme/typography', name: 'Typography', component: Typography },

@@ -6,15 +6,15 @@ export default {
     },
     {
       name: 'SIP',
-      url: '/dashboard',
+      url: '/sip',
     },
     {
       name: 'Payments',
-      url: '/dashboard',
+      url: '/payment',
     },
     {
       name: 'Call Records',
-      url: '/dashboard',
+      url: '/callrecords',
     }
     
   ],

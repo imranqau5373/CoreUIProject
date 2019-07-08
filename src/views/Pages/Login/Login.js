@@ -7,7 +7,6 @@ class Login extends Component {
 
   constructor(props) {
     super(props);
-    debugger;
     let loginId = localStorage.getItem("loginId");
     if(loginId != null){
       window.location.href = "#/dashboard";
@@ -22,7 +21,7 @@ class Login extends Component {
     }
 
     validateForm() {
-      debugger;
+
       return this.state.email.length > 0 && this.state.password.length > 0;
     }
   
@@ -36,23 +35,27 @@ class Login extends Component {
     handleSubmit = event => {
       event.preventDefault();
       try {
+        debugger;
         let formData  = {};
-        formData.email = this.state.email;
+        formData.username = this.state.email;
         formData.password = this.state.password;
-        var loginData = 'username='+formData.email+'&password='+formData.password;
+        //var loginData = 'username='+formData.email+'&password='+formData.password;
 
-      axios.post('http://mor-api-implement.herokuapp.com/users/login', {
+      axios.post('http://localhost:3001/users/login', {
           headers: {
               'content-type': 'application/x-www-form-urlencoded',
               'Accept': 'application/json'
           },
-          body: loginData
+          body: formData
       })
       .then(function (myJson) {
+        debugger;
              console.log(myJson);
-          if(myJson.status){
+          if(myJson.data.status && myJson.data.status == true){
+            
             localStorage.removeItem("loginId");
-            localStorage.setItem('loginId',myJson.loginId);
+            localStorage.setItem('loginId',myJson.data.loginId);
+            localStorage.setItem('userName',formData.username);
             window.location.href = "#/dashboard";
             
           }

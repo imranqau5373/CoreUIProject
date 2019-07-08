@@ -1,0 +1,7 @@
+{
+    "name": "Call Records",
+    "version": "0.0.0",
+    "private": true,
+    "main": "./callrecords.js"
+  }
+  
