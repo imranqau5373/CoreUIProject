@@ -28,7 +28,7 @@ class payment extends Component {
         checkoutData.currency = this.state.currency;
         checkoutData.amount = this.state.amount;
        debugger;
-            axios.post('http://localhost:3001/payment', {
+            axios.post('https://mor-api-implement.herokuapp.com/payment', {
               headers: {
                   'content-type': 'application/x-www-form-urlencoded',
                   'Accept': 'application/json'

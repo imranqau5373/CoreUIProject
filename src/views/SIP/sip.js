@@ -27,7 +27,7 @@ class sip extends Component {
         let userData  = {};
         userData.user_id = localStorage.getItem("loginId");
        
-            axios.post('http://localhost:3001/sip/sipdevice', {
+            axios.post('https://mor-api-implement.herokuapp.com/sip/sipdevice', {
               headers: {
                   'content-type': 'application/x-www-form-urlencoded',
                   'Accept': 'application/json'

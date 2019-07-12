@@ -44,7 +44,7 @@ class Dashboard extends Component {
     userData.userId = localStorage.getItem("loginId");
     userData.userName = localStorage.getItem("userName");
    
-        axios.post('http://localhost:3001/users/details', {
+        axios.post('https://mor-api-implement.herokuapp.com/users/details', {
           headers: {
               'content-type': 'application/x-www-form-urlencoded',
               'Accept': 'application/json'
@@ -66,7 +66,7 @@ class Dashboard extends Component {
   //function convert currency to USD
   convertUSD(){
     try {
-      axios.get('http://localhost:3001/users/getcurrency?amount='+this.state.userBalance, {
+      axios.get('https://mor-api-implement.herokuapp.com/users/getcurrency?amount='+this.state.userBalance, {
         headers: {
             'content-type': 'application/x-www-form-urlencoded',
             'Accept': 'application/json'
