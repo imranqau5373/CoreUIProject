@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { Badge, Card, CardBody, CardHeader,  } from 'reactstrap';
+import {  Card, CardBody, CardHeader,  } from 'reactstrap';
+import payment from '../Payment/payment';
+import axios from 'axios';
+var config = require('../config');
 
 class paymentsuccess extends Component {
 
@@ -10,9 +13,49 @@ class paymentsuccess extends Component {
     
         this.state = {
 
+          paymentId : "",
+          userId : "",
+          payerId : ""
+
+
         };
 
+
+        this.onLoadUserBalance = this.onLoadUserBalance.bind(this);
       }
+
+      
+  componentDidMount() {
+    window.addEventListener('load', this.onLoadUserBalance);
+ }
+
+
+ onLoadUserBalance(){
+   debugger;
+   let paymentInfo = {};
+   paymentInfo.userId = localStorage.getItem("loginId");
+   let currentUrl = window.location.href;
+   paymentInfo.paymentId = /paymentId=([^&]+)/.exec(currentUrl)[1];
+   paymentInfo.payerId = /PayerID=([^&]+)/.exec(currentUrl)[1];
+   if(paymentInfo.payerId != null && paymentInfo.payerId != undefined){
+    axios.post(config.serverurl+'/payment/successPayment', {
+      headers: {
+          'content-type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json'
+      },
+      body: paymentInfo
+    })
+    .then((myJson) => {
+      window.location.href = "#/paymentsuccess";
+  });
+   }
+
+
+
+
+ }
+
+ 
 
   
 
@@ -33,7 +76,6 @@ class paymentsuccess extends Component {
               </CardHeader>
 
               <CardBody>
-\
     
               </CardBody>
           </Card>

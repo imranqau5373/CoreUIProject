@@ -15,6 +15,10 @@ export default {
     {
       name: 'Call Records',
       url: '/callrecords',
+    },
+    {
+      name: 'Rates',
+      url: '/rates',
     }
     
   ],

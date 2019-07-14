@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Badge, Card, CardBody, CardHeader, Col, Pagination, PaginationItem, PaginationLink, Row, Table } from 'reactstrap';
+import { Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
 import axios from 'axios';
+var config = require('../config');
 
 class sip extends Component {
 
@@ -27,7 +28,7 @@ class sip extends Component {
         let userData  = {};
         userData.user_id = localStorage.getItem("loginId");
        
-            axios.post('https://mor-api-implement.herokuapp.com/sip/sipdevice', {
+            axios.post(config.serverurl+'/sip/sipdevice', {
               headers: {
                   'content-type': 'application/x-www-form-urlencoded',
                   'Accept': 'application/json'
@@ -35,8 +36,6 @@ class sip extends Component {
               body: userData
           })
           .then((myJson) => {
-              console.log(myJson);
-              debugger;
               this.setState({
                 deviceData: myJson.data,
               });

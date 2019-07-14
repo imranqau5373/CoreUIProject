@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, Col, Row } from 'reactstrap';
 import axios from 'axios';
+var config = require('../config');
 
 
 class Dashboard extends Component {
@@ -22,11 +23,14 @@ class Dashboard extends Component {
     this.onloadUserDetails = this.onloadUserDetails.bind(this);
     this.convertUSD = this.convertUSD.bind(this);
     this.convertEUR = this.convertEUR.bind(this);
+
+    
   
   }
 
   componentDidMount() {
     window.addEventListener('load', this.onloadUserDetails);
+    this.convertUSD();
     //this.onloadUserDetails();
  }
 
@@ -44,7 +48,7 @@ class Dashboard extends Component {
     userData.userId = localStorage.getItem("loginId");
     userData.userName = localStorage.getItem("userName");
    
-        axios.post('https://mor-api-implement.herokuapp.com/users/details', {
+        axios.post(config.serverurl+'/users/details', {
           headers: {
               'content-type': 'application/x-www-form-urlencoded',
               'Accept': 'application/json'
@@ -52,12 +56,20 @@ class Dashboard extends Component {
           body: userData
       })
       .then((myJson) => {
-             let balance_number = myJson.data.details[0].main_detail[0].balance_number[0];
-             balance_number = parseFloat(balance_number).toFixed(2);
-             this.setState({
-              userBalance: balance_number,
-              userDisplayBalance : balance_number,
-            });
+        if(myJson.data === "" || myJson.data.length > 0){
+          window.location.href = "#/login";
+        }
+        else{
+          debugger;
+          let balance_number = myJson.data.details[0].main_detail[0].balance_number[0];
+          balance_number = parseFloat(balance_number).toFixed(2);
+          this.setState({
+           userBalance: balance_number,
+           userDisplayBalance : balance_number,
+         });
+         this.forceUpdate();
+        }
+
              
              
       });
@@ -65,8 +77,9 @@ class Dashboard extends Component {
 
   //function convert currency to USD
   convertUSD(){
+    debugger;
     try {
-      axios.get('https://mor-api-implement.herokuapp.com/users/getcurrency?amount='+this.state.userBalance, {
+      axios.get(config.serverurl+'/users/getcurrency?amount='+this.state.userBalance, {
         headers: {
             'content-type': 'application/x-www-form-urlencoded',
             'Accept': 'application/json'

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Badge, Card, CardBody, CardHeader, Col, FormGroup, Label, Input, Row,Button } from 'reactstrap';
+import { Card, CardBody, CardHeader, Col, FormGroup, Label, Input, Row,Button } from 'reactstrap';
 import axios from 'axios';
+var config = require('../config');
 
 class payment extends Component {
 
@@ -11,7 +12,7 @@ class payment extends Component {
     
         this.state = {
             paymentInformation : [],
-            amount : "50",
+            amount : "10",
             currency : "USD",
             userid : ""
         };
@@ -23,12 +24,13 @@ class payment extends Component {
       }
 
       paypalcheckout(){
+        debugger;
         let checkoutData  = {};
-        checkoutData.userId = "179";
+        let userId = localStorage.getItem("loginId");
+        checkoutData.userId = userId;
         checkoutData.currency = this.state.currency;
         checkoutData.amount = this.state.amount;
-       debugger;
-            axios.post('https://mor-api-implement.herokuapp.com/payment', {
+            axios.post(config.serverurl+'/payment', {
               headers: {
                   'content-type': 'application/x-www-form-urlencoded',
                   'Accept': 'application/json'
@@ -74,6 +76,7 @@ class payment extends Component {
               <FormGroup>
           <Label for="exampleSelect">Select Amount</Label>
           <Input type="select" name="select" id="amount" onChange={this.handleChange}>
+          <option value="10">10</option>
           <option value="50">50</option>
                               <option value="100">100</option>
                               <option value="150">150</option>

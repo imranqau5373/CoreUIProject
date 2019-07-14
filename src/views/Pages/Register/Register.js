@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import { Button, Card, CardBody, CardFooter, Col, Container, Form, Input,InputGroup,Row,Label,FormGroup } from 'reactstrap';
-
+import config from '../../config.js';
 class Register extends Component {
 
   constructor(props) {
@@ -58,7 +58,7 @@ class Register extends Component {
         formData.device_type = this.state.device_type;
         formData.country_id = this.state.country_id;
 
-        axios.post('http://mor-api-implement.herokuapp.com/users/register', {
+        axios.post(config.serverurl+'/users/register', {
           headers: {
               'content-type': 'application/x-www-form-urlencoded',
               'Accept': 'application/json'

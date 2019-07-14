@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios'
+import axios from 'axios';
+import config from '../../config.js';
 import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
 
 class Login extends Component {
@@ -41,7 +42,7 @@ class Login extends Component {
         formData.password = this.state.password;
         //var loginData = 'username='+formData.email+'&password='+formData.password;
 
-      axios.post('https://mor-api-implement.herokuapp.com/users/login', {
+      axios.post(config.serverurl+'/users/login', {
           headers: {
               'content-type': 'application/x-www-form-urlencoded',
               'Accept': 'application/json'
@@ -49,9 +50,8 @@ class Login extends Component {
           body: formData
       })
       .then(function (myJson) {
-        debugger;
              console.log(myJson);
-          if(myJson.data.status && myJson.data.status == true){
+          if(myJson.data.status && myJson.data.status === true){
             
             localStorage.removeItem("loginId");
             localStorage.setItem('loginId',myJson.data.loginId);

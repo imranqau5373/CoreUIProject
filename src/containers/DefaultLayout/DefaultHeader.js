@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import { Badge, DropdownItem, DropdownMenu, DropdownToggle, Nav, NavItem } from 'reactstrap';
+import {  DropdownItem, DropdownMenu, DropdownToggle, Nav } from 'reactstrap';
 import PropTypes from 'prop-types';
 
-import { AppAsideToggler, AppHeaderDropdown, AppNavbarBrand, AppSidebarToggler } from '@coreui/react';
-import logo from '../../assets/img/brand/logo.svg'
-import sygnet from '../../assets/img/brand/sygnet.svg'
+import { AppAsideToggler, AppHeaderDropdown, AppSidebarToggler } from '@coreui/react';
+// import logo from '../../assets/img/brand/logo.svg'
+// import sygnet from '../../assets/img/brand/sygnet.svg'
 
 const propTypes = {
   children: PropTypes.node,
@@ -18,6 +17,10 @@ class DefaultHeader extends Component {
 
     // eslint-disable-next-line
     const { children, ...attributes } = this.props;
+    function onLogout(){
+      debugger;
+      
+    }
 
     return (
       <React.Fragment>
