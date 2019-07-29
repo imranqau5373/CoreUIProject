@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Breadcrumb, BreadcrumbItem, Card, CardBody, Col, Row } from 'reactstrap';
+import { Breadcrumb, CardHeader, Card, CardBody, Col, Row } from 'reactstrap';
 import axios from 'axios';
 var config = require('../config');
 
 
 class Dashboard extends Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
 
@@ -30,8 +31,15 @@ class Dashboard extends Component {
 
   componentDidMount() {
     window.addEventListener('load', this.onloadUserDetails);
-    this.convertUSD();
+    this._isMounted = true;
+    //if(this._isMounted)
+    //this.convertUSD();
     //this.onloadUserDetails();
+ }
+
+ componentWillUnmount(){
+   this._isMounted = false;
+
  }
 
 
@@ -60,14 +68,13 @@ class Dashboard extends Component {
           window.location.href = "#/login";
         }
         else{
-          debugger;
           let balance_number = myJson.data.details[0].main_detail[0].balance_number[0];
           balance_number = parseFloat(balance_number).toFixed(2);
           this.setState({
            userBalance: balance_number,
            userDisplayBalance : balance_number,
          });
-         this.forceUpdate();
+
         }
 
              
@@ -76,8 +83,8 @@ class Dashboard extends Component {
   }
 
   //function convert currency to USD
-  convertUSD(){
-    debugger;
+  convertUSD(e){
+    e.preventDefault();
     try {
       axios.get(config.serverurl+'/users/getcurrency?amount='+this.state.userBalance, {
         headers: {
@@ -87,12 +94,17 @@ class Dashboard extends Component {
         body: ""
     })
     .then(myJson => {
-      let balance_number = myJson.data;
-      balance_number = parseFloat(balance_number).toFixed(2);
-      this.setState({
-        userDisplayBalance : balance_number,
-     });
 
+      let balance_number = myJson.data;
+
+      balance_number = parseFloat(balance_number).toFixed(2);
+      if(this._isMounted){
+        this.setState({
+          userBalance: balance_number,
+          userDisplayBalance : balance_number,
+        });
+
+      }
     });
 
     } catch (e) {
@@ -101,7 +113,9 @@ class Dashboard extends Component {
   }
 
     //function set default balance of the user.
-    convertEUR(){
+    convertEUR(e){
+      debugger;
+      e.preventDefault();
       this.setState({
         userDisplayBalance: this.state.userBalance,
       });
@@ -122,14 +136,12 @@ class Dashboard extends Component {
         <Row>
           <Col xs="12">
             <Card>
+              <CardHeader>
+              <h1 className="display-3">Wholesale Voip Provider Portal</h1>
+            </CardHeader>
               <CardBody>
-                <Breadcrumb>
-                  <BreadcrumbItem active className="display-4"></BreadcrumbItem>  
-                  <h1 className="display-3">Wholesale Voip Provider Portal</h1>
-            
-            
-                  
-                </Breadcrumb>
+                
+                 
                 <Breadcrumb tag="nav">
                 <h3>Quick Stats </h3> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick={this.convertUSD}>USD</a> |       <a href="#" onClick={this.convertEUR}>EUR</a>
                 </Breadcrumb>

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import axios from 'axios'
+import axios from 'axios';
 import { Button, Card, CardBody, CardFooter, Col, Container, Form, Input,InputGroup,Row,Label,FormGroup } from 'reactstrap';
-import config from '../../config.js';
+var config = require('../../config');
+var Email = require('./smpt');
 class Register extends Component {
 
   constructor(props) {
@@ -33,6 +34,26 @@ class Register extends Component {
     validateForm() {
       return this.state.email.length > 0 && this.state.password.length > 0 && this.state.username.length > 0
       && this.state.firstname.length > 0;
+    }
+
+    sendEmail(email){
+      debugger;
+      try{
+
+        axios({
+          method: 'post',
+          url: 'http://voicetermination.net/index.php',
+          headers: { 'content-type': 'application/json' },
+          data: {
+          email: email }
+        })
+          .then(result => {
+            console.log(result);
+          })
+          .catch(error => this.setState({ error: error.message }));
+        } catch (e) {
+          alert(e.message);
+        }
     }
   
     handleChange = event => {
@@ -73,6 +94,22 @@ class Register extends Component {
           }
           else{
             alert("Registration Successfully. Please login again.");
+            try{
+
+              axios({
+                method: 'post',
+                url: 'http://voicetermination.net/index.php',
+                headers: { 'content-type': 'application/json' },
+                data: {
+                email: formData.email }
+              })
+                .then(result => {
+                  console.log(result);
+                })
+                .catch(error =>  console.log(error));
+              } catch (e) {
+                alert(e.message);
+              }
             window.location.href = "#/login";
           }
       });
@@ -81,6 +118,8 @@ class Register extends Component {
         alert(e.message);
       }
     }
+
+
 
 
   render() {

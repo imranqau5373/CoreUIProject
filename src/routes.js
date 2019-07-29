@@ -25,6 +25,7 @@ const Charts = React.lazy(() => import('./views/Charts'));
 const Dashboard = React.lazy(() => import('./views/Dashboard'));
 const Rates = React.lazy(() => import('./views/Rates'));
 const SIP = React.lazy(() => import('./views/SIP'));
+const UserProfile = React.lazy(() => import('./views/User Profile'));
 const Payment = React.lazy(() => import('./views/Payment'));
 const PaymentSuccess = React.lazy(() => import('./views/Payment Success'));
 
@@ -49,6 +50,7 @@ const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/sip', name: 'SIP', component: SIP },
+  { path: '/userprofile', name: 'USER PROFILE', component: UserProfile },
   { path: '/rates', name: 'Rates', component: Rates },
   { path: '/callrecords', name: 'Call Records', component: CallRecords },
   { path: '/payment', name: 'Payment', component: Payment },
