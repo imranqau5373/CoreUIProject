@@ -19,10 +19,6 @@ export default {
     {
       name: 'Rates',
       url: '/rates',
-    },
-    {
-      name: 'User Profile',
-      url: '/userprofile',
     }
     
   ],

@@ -2017,8 +2017,8 @@ More information [here](https://reacttraining.com/react-router/web/api/BrowserRo
 For example:
 
 ```js
-<BrowserRouter basename="/calendar"/>
-<Link to="/today"/> // renders <a href="/calendar/today">
+<BrowserRouter basename="/admin"/>
+<Link to="${process.env.PUBLIC_URL}/admin"/> // renders <a href="/calendar/today">
 ```
 
 #### Serving the Same Build from Different Paths

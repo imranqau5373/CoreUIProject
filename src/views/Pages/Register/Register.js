@@ -42,7 +42,7 @@ class Register extends Component {
 
         axios({
           method: 'post',
-          url: 'http://voicetermination.net/index.php',
+          url: 'http://calldialing.com/index.php',
           headers: { 'content-type': 'application/json' },
           data: {
           email: email }

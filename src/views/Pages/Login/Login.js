@@ -36,7 +36,6 @@ class Login extends Component {
     handleSubmit = event => {
       event.preventDefault();
       try {
-        debugger;
         let formData  = {};
         formData.username = this.state.email;
         formData.password = this.state.password;
@@ -83,6 +82,7 @@ class Login extends Component {
               <CardGroup>
                 <Card className="p-4">
                   <CardBody>
+                  <img src={'../../assets/img/avatars/logo.png'} className="img-avatar" alt="admin@bootstrapmaster.com" />
                     <Form onSubmit={this.handleSubmit}>
                       <h1>Login</h1>
                       <p className="text-muted">Welcome to SignPage new one.</p>

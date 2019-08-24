@@ -19,7 +19,10 @@ class callrecords extends Component {
       }
 
       componentDidMount() {
-        window.addEventListener('load', this.onLoadCallRecords);
+        //window.addEventListener('load', this.onLoadCallRecords);
+        this.onLoadCallRecords();
+
+
      }
 
       onLoadCallRecords(){

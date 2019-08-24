@@ -30,11 +30,7 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener('load', this.onloadUserDetails);
-    this._isMounted = true;
-    //if(this._isMounted)
-    //this.convertUSD();
-    //this.onloadUserDetails();
+    this.onloadUserDetails();
  }
 
  componentWillUnmount(){
@@ -51,7 +47,7 @@ class Dashboard extends Component {
   }
 
   onloadUserDetails(){
-
+    debugger;
     let userData  = {};
     userData.userId = localStorage.getItem("loginId");
     userData.userName = localStorage.getItem("userName");
@@ -68,6 +64,7 @@ class Dashboard extends Component {
           window.location.href = "#/login";
         }
         else{
+          
           let balance_number = myJson.data.details[0].main_detail[0].balance_number[0];
           balance_number = parseFloat(balance_number).toFixed(2);
           this.setState({
@@ -98,13 +95,10 @@ class Dashboard extends Component {
       let balance_number = myJson.data;
 
       balance_number = parseFloat(balance_number).toFixed(2);
-      if(this._isMounted){
         this.setState({
-          userBalance: balance_number,
           userDisplayBalance : balance_number,
         });
 
-      }
     });
 
     } catch (e) {
@@ -114,10 +108,10 @@ class Dashboard extends Component {
 
     //function set default balance of the user.
     convertEUR(e){
-      debugger;
       e.preventDefault();
       this.setState({
-        userDisplayBalance: this.state.userBalance,
+        userBalance: this.state.userBalance,
+        userDisplayBalance : this.state.userBalance,
       });
     }
 
@@ -137,7 +131,7 @@ class Dashboard extends Component {
           <Col xs="12">
             <Card>
               <CardHeader>
-              <h1 className="display-3">Wholesale Voip Provider Portal</h1>
+              <h1 className="display-3">Dashboard</h1>
             </CardHeader>
               <CardBody>
                 
