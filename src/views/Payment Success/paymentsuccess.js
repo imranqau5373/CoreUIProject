@@ -38,7 +38,7 @@ class paymentsuccess extends Component {
    paymentInfo.paymentId = /paymentId=([^&]+)/.exec(currentUrl)[1];
    paymentInfo.payerId = /PayerID=([^&]+)/.exec(currentUrl)[1];
    if(paymentInfo.payerId != null && paymentInfo.payerId != undefined){
-    axios.post(config.serverurl+'/payment/successPayment', {
+    axios.post(config.paymenturl+'/payment/successPayment', {
       headers: {
           'content-type': 'application/x-www-form-urlencoded',
           'Accept': 'application/json'

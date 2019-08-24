@@ -30,7 +30,7 @@ class payment extends Component {
         checkoutData.userId = userId;
         checkoutData.currency = this.state.currency;
         checkoutData.amount = this.state.amount;
-            axios.post(config.serverurl+'/payment', {
+            axios.post(config.paymenturl+'/payment', {
               headers: {
                   'content-type': 'application/x-www-form-urlencoded',
                   'Accept': 'application/json'
